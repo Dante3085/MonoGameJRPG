@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGameJRPG", "MonoGameJRPG\MonoGameJRPG.csproj", "{4A13742E-9B4C-458E-830B-6A612BE35172}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A13742E-9B4C-458E-830B-6A612BE35172}.Debug|x86.ActiveCfg = Debug|x86
+		{4A13742E-9B4C-458E-830B-6A612BE35172}.Debug|x86.Build.0 = Debug|x86
+		{4A13742E-9B4C-458E-830B-6A612BE35172}.Release|x86.ActiveCfg = Release|x86
+		{4A13742E-9B4C-458E-830B-6A612BE35172}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {78A8C858-B795-446D-969C-61C8CE78EBB8}
+	EndGlobalSection
+EndGlobal
