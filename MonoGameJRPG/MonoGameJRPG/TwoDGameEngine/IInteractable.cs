@@ -9,6 +9,7 @@ namespace MonoGameJRPG.TwoDGameEngine
 {
     public interface IInteractable<T>
     {
+        // TODO: Man kann nicht nur mit Charactern interagieren. Auch mit der Umwelt.
         T Interact(Character partner);
     }
 }

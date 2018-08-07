@@ -42,15 +42,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="General\Combat\BattleExecute.cs" />
-    <Compile Include="General\Combat\CombatEntity.cs" />
+    <Compile Include="General\Menus\Layouts\HBox.cs" />
+    <Compile Include="General\Menus\Layouts\VBox.cs" />
+    <Compile Include="General\Menus\Menu.cs" />
+    <Compile Include="General\Menus\MenuButton.cs" />
+    <Compile Include="General\Menus\MenuElement.cs" />
+    <Compile Include="General\SpriteState.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\Command.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\CommandEventArgs.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\GameConsole.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\GameConsoleContent.Designer.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\InputEventArgs.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\KeyMap.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\LogEntry.cs" />
+    <Compile Include="TwoDGameEngine\GameConsole\LogEventArgs.cs" />
     <Compile Include="TwoDGameEngine\GameObject.cs" />
     <Compile Include="TwoDGameEngine\ICollidable.cs" />
+    <Compile Include="TwoDGameEngine\ILocatable.cs" />
     <Compile Include="TwoDGameEngine\Input\IInputable.cs" />
     <Compile Include="TwoDGameEngine\IInteractable.cs" />
     <Compile Include="TwoDGameEngine\IMDrawable.cs" />
     <Compile Include="TwoDGameEngine\Input\GamePadInput.cs" />
     <Compile Include="TwoDGameEngine\Input\InputManager.cs" />
     <Compile Include="TwoDGameEngine\Input\KeyboardInput.cs" />
+    <Compile Include="TwoDGameEngine\Input\MouseInput.cs" />
+    <Compile Include="TwoDGameEngine\IOrderable.cs" />
     <Compile Include="TwoDGameEngine\Sprite\AnimatedSprite.cs" />
     <Compile Include="TwoDGameEngine\Sprite\Sprite.cs" />
     <Compile Include="Game1.cs" />
@@ -60,7 +76,7 @@
     <Compile Include="General\Characters\EActionMethod.cs" />
     <Compile Include="General\Combat\AIDecide.cs" />
     <Compile Include="General\Combat\BattleTick.cs" />
-    <Compile Include="General\Characters\IAction.cs" />
+    <Compile Include="General\Combat\IAction.cs" />
     <Compile Include="General\Combat\PlayerDecide.cs" />
     <Compile Include="General\States\EState.cs" />
     <Compile Include="General\States\IState.cs" />
@@ -69,7 +85,7 @@
     <Compile Include="General\Combat\BattleState.cs" />
     <Compile Include="General\States\EmptyState.cs" />
     <Compile Include="General\GameState.cs" />
-    <Compile Include="General\Menu\MainMenuState.cs" />
+    <Compile Include="General\Menus\MainMenuState.cs" />
     <Compile Include="General\States\State.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

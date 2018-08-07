@@ -10,6 +10,7 @@ namespace MonoGameJRPG.General.States
     {
         MainMenu,
         GameState,
+        SpriteState,
 
         #region Combat
         Tick,

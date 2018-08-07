@@ -19,14 +19,64 @@ namespace MonoGameJRPG.TwoDGameEngine.Input
         private static GamePadState _currentGamePadState;
         private static GamePadState _previousGamePadState;
 
-        public static void Update()
+        private static MouseState _previousMouseState;
+        private static MouseState _currentMouseState;
+
+        /// <summary>
+        /// Call this method before you'r Key operation.
+        /// </summary>
+        public static void UpdateCurrentStates()
         {
             _currentKeyboardState = Keyboard.GetState();
-            _previousKeyboardState = _currentKeyboardState;
 
             _currentGamePadState = GamePad.GetState(PlayerIndex.One);
-            _previousGamePadState = _currentGamePadState;
+
+            _currentMouseState = Mouse.GetState();
         }
+
+        /// <summary>
+        /// Call this method after you'r key operation.
+        /// </summary>
+        public static void UpdatePreviousStates()
+        {
+            _previousKeyboardState = _currentKeyboardState;
+
+            _previousGamePadState = _currentGamePadState;
+
+            _previousMouseState = _currentMouseState;
+        }
+
+        #region Mouse
+        /// <summary>
+        /// Gets whether LeftMouseButton has been clicked (no holding).
+        /// </summary>
+        /// <returns></returns>
+        public static bool OnLeftMouseClick()
+        {
+            return _previousMouseState.LeftButton == ButtonState.Released && 
+                _currentMouseState.LeftButton == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// Gets whether RightMouseButton has been clicked (no holding).
+        /// </summary>
+        /// <returns></returns>
+        public static bool OnRightMouseClick()
+        {
+            return _previousMouseState.RightButton == ButtonState.Released &&
+                _currentMouseState.RightButton == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// Gets whether Mouse hovers the given Rectangle.
+        /// </summary>
+        /// <param name="rectangle"></param>
+        /// <returns></returns>
+        public static bool IsMouseHoverRectangle(Rectangle rectangle)
+        {
+            return rectangle.Contains(_currentMouseState.Position);
+        }
+        #endregion
 
         #region Keyboard
         /// <summary>

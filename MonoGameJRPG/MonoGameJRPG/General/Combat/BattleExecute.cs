@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 
 namespace MonoGameJRPG.General.Combat
 {
+    /// <summary>
+    /// Responsible for 
+    /// </summary>
     public class BattleExecute : IState
     {
-        private StateMachine _stateMachine;
-        private Queue<IAction> _actions;
+        private StateMachine _battleStates;
+        private List<IAction> _actions;
 
-        public BattleExecute(StateMachine stateMachine, Queue<IAction> actions)
+        public BattleExecute(StateMachine stateMachine, List<IAction> actions)
         {
-            _stateMachine = stateMachine;
+            _battleStates = stateMachine;
             _actions = actions;
         }
 
@@ -37,7 +40,10 @@ namespace MonoGameJRPG.General.Combat
 
         public void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            // Play Animations
+
+            // On AnimationSignal: DoBattleCalcualtions
+            _actions[0].ExecuteAction();
         }
     }
 }

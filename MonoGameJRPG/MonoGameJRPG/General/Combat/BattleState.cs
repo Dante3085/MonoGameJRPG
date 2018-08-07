@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameJRPG.General.Characters;
@@ -11,11 +8,24 @@ using MonoGameJRPG.General.States;
 
 namespace MonoGameJRPG.General.Combat
 {
+    /// <summary>
+    /// Defines Combat in the game.
+    /// </summary>
     public class BattleState : State, IState
     {
-        private Queue<IAction> _actions = new Queue<IAction>();
-        private List<ICombatEntity> _characters = new List<Character>();
+        /// <summary>
+        /// PlayerDecides and AIDecides are stored here.
+        /// </summary>
+        private List<IAction> _actions = new List<IAction>();
 
+        /// <summary>
+        /// Characters that participate in combat are stored in this List.
+        /// </summary>
+        private List<Character> _characters = new List<Character>();
+
+        /// <summary>
+        /// Handles States necessary for combat (BattleTick, BattleExecute)
+        /// </summary>
         private StateMachine _battleStates = new StateMachine();
 
         #region StaticMethods
@@ -28,6 +38,8 @@ namespace MonoGameJRPG.General.Combat
 
         public BattleState(SpriteBatch spriteBatch, Texture2D background, int backgroundWidth, int backgroundHeight) : base(spriteBatch, background, backgroundWidth, backgroundHeight)
         {
+            // Add States necessary for combat to StateMachine.
+
             _battleStates.Add(EState.Tick, new BattleTick(_battleStates, _actions));
             _battleStates.Add(EState.Execute, new BattleExecute(_battleStates, _actions));
         }
@@ -38,24 +50,24 @@ namespace MonoGameJRPG.General.Combat
 
             //
             // Get a decision action for every entity in the action queue
-            // The sort it so the quickest actions are the top
+            // Then sort it so the quickest action is on top
             //
 
             foreach (Character c in _characters)
             {
                 if (c.IsPlayerControlled)
                 {
-                    PlayerDecide action = new PlayerDecide(c, c.speed());
+                    PlayerDecide action = new PlayerDecide(c);
                     _actions.Add(action);
                 }
                 else
                 {
-                    AIDecide action = new AIDecide(c, c.Speed());
-                    _actions.Add(action);
+                    // AIDecide action = new AIDecide(c);
+                    // _actions.Add(action);
                 }
             }
 
-            Sort(_actions, BattleState.SortByTime());
+            // SortDescending(_actions);
         }
 
         public void OnExit()

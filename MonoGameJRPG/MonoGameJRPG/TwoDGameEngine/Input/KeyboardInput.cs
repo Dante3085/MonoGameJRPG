@@ -25,6 +25,10 @@ namespace MonoGameJRPG.TwoDGameEngine.Input
         public Keys CursorDown { get; set; }
         public Keys Confirm { get; set; }
         public Keys Back { get; set; }
+
+        public Keys Attack { get; set; } // DELTE ME LATER
         #endregion
+
+
     }
 }

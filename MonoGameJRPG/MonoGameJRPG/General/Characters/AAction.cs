@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonoGameJRPG.General.Characters
 {
-    public class AAction : IAction
+    public class AAction
     {
         #region MemberVariables
         private Dictionary<EActionMethod, Action<Character>> _actionMethods = new Dictionary<EActionMethod, Action<Character>>();

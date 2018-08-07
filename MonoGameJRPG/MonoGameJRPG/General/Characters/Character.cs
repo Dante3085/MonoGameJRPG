@@ -22,7 +22,7 @@ namespace MonoGameJRPG.General.Characters
     /// - Use Item
     /// - End Turn
     /// </summary>
-    public class Character : GameObject, IInputable, I
+    public class Character : GameObject, IInputable
     {
         #region MemberVariables
         private AnimatedSprite _animatedSprite;

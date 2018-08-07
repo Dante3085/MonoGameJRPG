@@ -1,9 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGameJRPG.General.State;
-using MonoGameJRPG.General.State.States;
+using MonoGameJRPG.General;
+using MonoGameJRPG.General.Menus;
+using MonoGameJRPG.General.Menus.Layouts;
+using MonoGameJRPG.General.States;
+using MonoGameJRPG.TwoDGameEngine.Input;
+using MonoGameJRPG.TwoDGameEngine.Sprite;
 using System.Collections.Generic;
+using VosSoft.Xna.GameConsole;
 
 namespace MonoGameJRPG
 {
@@ -15,10 +20,9 @@ namespace MonoGameJRPG
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private StateStack _stateStack;
+        public static GameConsole gameConsole;
 
-        private KeyboardState _previousKeyboardState;
-        private KeyboardState _currentKeyboardState;
+        private StateStack _stateStack;
 
         public Game1()
         {
@@ -40,8 +44,28 @@ namespace MonoGameJRPG
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameConsole = new GameConsole(this, "german", Content);
+            gameConsole.IsFullscreen = true;
+
             base.Initialize();
         }
+
+        #region ButtonFunctionalityMethods
+        private void PushGameState()
+        {
+            _stateStack.Push(EState.GameState);
+        }
+
+        public void PopStateStack()
+        {
+            _stateStack.Pop();
+        }
+
+        public void SayHiInConsole()
+        {
+            gameConsole.Log("Hi");
+        }
+        #endregion
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -54,17 +78,63 @@ namespace MonoGameJRPG
 
             Texture2D mainMenuBackground = Content.Load<Texture2D>("DeusExMainMenu");
             Texture2D gameBackground = Content.Load<Texture2D>("Space");
+            Texture2D buttonTextureNoHover2 = Content.Load<Texture2D>("ButtonTextureNoHover2");
+            Texture2D buttonTextureHover = Content.Load<Texture2D>("ButtonTextureHover");
+            Texture2D playerSheet = Content.Load<Texture2D>("playerSheet");
+
             int screenWidth = graphics.PreferredBackBufferWidth;
             int screenHeight = graphics.PreferredBackBufferHeight;
 
+            MenuButton button1 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
+            MenuButton button2 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
+            MenuButton button3 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
+            MenuButton button4 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
+            VBox<MenuButton> vbox = new VBox<MenuButton>(new Vector2(500, 100), 0, button1, button2, button3, button4 );
+
+            Menu mainMenu = new Menu(new List<MenuElement>()
+            {
+                vbox
+            });
+
+            Menu gameMenu = new Menu(new List<MenuElement>()
+            {
+                new HBox<MenuButton>(new Vector2(100, 100), 0, new MenuButton[]
+                {
+                    new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PopStateStack),
+                    new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: SayHiInConsole)
+                }),
+            });
+
+            AnimatedSprite player1 = new AnimatedSprite("Player1", new Vector2(100, 100), PlayerIndex.One, GraphicsDevice, playerSheet, new KeyboardInput()
+            {
+                Left = Keys.A,
+                Up = Keys.W,
+                Right = Keys.D,
+                Down = Keys.S
+            });
+            AnimatedSprite player2 = new AnimatedSprite("Player2", new Vector2(200, 100), PlayerIndex.Two, GraphicsDevice, playerSheet, new KeyboardInput()
+            {
+                Left = Keys.Left,
+                Up = Keys.Up,
+                Right = Keys.Right,
+                Down = Keys.Down
+            });
+
+            List<AnimatedSprite> sprites = new List<AnimatedSprite>();
+            sprites.Add(player1);
+            sprites.Add(player2);
+
             _stateStack = new StateStack(new Dictionary<EState, IState>()
             {
-                { EState.MainMenu, new MainMenuState(spriteBatch, mainMenuBackground, screenWidth, screenHeight) },
-                { EState.GameState, new GameState(spriteBatch, gameBackground, screenWidth, screenHeight) }
+                { EState.MainMenu, new MainMenuState(mainMenu, spriteBatch, mainMenuBackground, screenWidth, screenHeight) },
+                { EState.GameState, new GameState(gameMenu, spriteBatch, gameBackground, screenWidth, screenHeight) },
+                { EState.SpriteState, new SpriteState(sprites, spriteBatch, gameBackground, screenWidth, screenHeight)}
+
             });
 
             _stateStack.Push(EState.MainMenu);
             _stateStack.Push(EState.GameState);
+            _stateStack.Push(EState.SpriteState);
 
             // TODO: use this.Content to load your game content here
         }
@@ -85,19 +155,25 @@ namespace MonoGameJRPG
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _currentKeyboardState = Keyboard.GetState();
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (_currentKeyboardState.IsKeyDown(Keys.F1) && _previousKeyboardState.IsKeyUp(Keys.F1))
-                _stateStack.Pop();
-            else if (_currentKeyboardState.IsKeyDown(Keys.F2) && _previousKeyboardState.IsKeyUp(Keys.F2))
-                _stateStack.Push(EState.GameState);
-
-            _previousKeyboardState = Keyboard.GetState();
-
             // TODO: Add your update logic here
+            InputManager.UpdateCurrentStates();
+
+            if (InputManager.OnKeyDown(Keys.F1))
+                _stateStack.Pop();
+            else if (InputManager.OnKeyDown(Keys.F2))
+                _stateStack.Push(EState.GameState);
+            else if (InputManager.OnKeyDown(Keys.F3))
+                _stateStack.Push(EState.SpriteState);
+
+            if (InputManager.OnKeyDown(Keys.Tab))
+                gameConsole.Open(Keys.Tab);
+
+            _stateStack.Update(gameTime);
+
+            InputManager.UpdatePreviousStates();
 
             base.Update(gameTime);
         }

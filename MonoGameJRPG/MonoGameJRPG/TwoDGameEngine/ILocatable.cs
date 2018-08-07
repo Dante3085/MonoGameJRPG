@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonoGameJRPG.General.Characters
+namespace MonoGameJRPG.TwoDGameEngine
 {
-    public interface IAction
+    public interface ILocatable
     {
-        bool IsReady();
-        int TimeRemaining();
-        void Update(GameTime gameTime);
+        float X { get; set; }
+        float Y { get; set; }
     }
 }
