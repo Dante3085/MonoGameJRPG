@@ -24,11 +24,18 @@ namespace MonoGameJRPG
 
         private StateStack _stateStack;
 
+        private int screenWidth;
+        private int screenHeight;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 3240;
-            graphics.PreferredBackBufferHeight = 2160;
+            //graphics.PreferredBackBufferWidth = 3240;
+            //graphics.PreferredBackBufferHeight = 2160;
+
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+
             graphics.IsFullScreen = true;
 
             IsMouseVisible = true;
@@ -46,6 +53,9 @@ namespace MonoGameJRPG
             // TODO: Add your initialization logic here
             gameConsole = new GameConsole(this, "german", Content);
             gameConsole.IsFullscreen = true;
+
+            screenWidth = graphics.PreferredBackBufferWidth;
+            screenHeight = graphics.PreferredBackBufferHeight;
 
             base.Initialize();
         }
@@ -78,18 +88,15 @@ namespace MonoGameJRPG
 
             Texture2D mainMenuBackground = Content.Load<Texture2D>("DeusExMainMenu");
             Texture2D gameBackground = Content.Load<Texture2D>("Space");
-            Texture2D buttonTextureNoHover2 = Content.Load<Texture2D>("ButtonTextureNoHover2");
-            Texture2D buttonTextureHover = Content.Load<Texture2D>("ButtonTextureHover");
             Texture2D playerSheet = Content.Load<Texture2D>("playerSheet");
+            Texture2D btnNoHover = Content.Load<Texture2D>("btnNoHover");
+            Texture2D btnHover = Content.Load<Texture2D>("btnHover");
 
-            int screenWidth = graphics.PreferredBackBufferWidth;
-            int screenHeight = graphics.PreferredBackBufferHeight;
-
-            MenuButton button1 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
-            MenuButton button2 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
-            MenuButton button3 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
-            MenuButton button4 = new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PushGameState);
-            VBox<MenuButton> vbox = new VBox<MenuButton>(new Vector2(500, 100), 0, button1, button2, button3, button4 );
+            MenuButton button1 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
+            MenuButton button2 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
+            MenuButton button3 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
+            MenuButton button4 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
+            VBox<MenuButton> vbox = new VBox<MenuButton>(Vector2.Zero, 5, button1, button2, button3, button4 );
 
             Menu mainMenu = new Menu(new List<MenuElement>()
             {
@@ -98,10 +105,10 @@ namespace MonoGameJRPG
 
             Menu gameMenu = new Menu(new List<MenuElement>()
             {
-                new HBox<MenuButton>(new Vector2(100, 100), 0, new MenuButton[]
+                new HBox<MenuButton>(Vector2.Zero, 0, new MenuButton[]
                 {
-                    new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: PopStateStack),
-                    new MenuButton(buttonTextureNoHover2, buttonTextureHover, buttonFunctionality: SayHiInConsole)
+                    new MenuButton(btnNoHover, btnHover, function: PopStateStack),
+                    new MenuButton(btnNoHover, btnHover, function: SayHiInConsole)
                 }),
             });
 

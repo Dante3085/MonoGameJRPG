@@ -42,11 +42,11 @@ namespace MonoGameJRPG.General.Menus
         }
         #endregion
 
-        public MenuButton(Texture2D buttonTextureNoHover, Texture2D buttonTextureHover, int x = 0, int y = 0, Action buttonFunctionality = null)
+        public MenuButton(Texture2D buttonTextureNoHover, Texture2D buttonTextureHover, int x = 0, int y = 0, Action function = null)
         {
             _buttonTextureNoHover = buttonTextureNoHover;
             _buttonTextureHover = buttonTextureHover;
-            _buttonFunctionality = buttonFunctionality;
+            _buttonFunctionality = function;
 
             _activeButtonTexture = buttonTextureNoHover;
 

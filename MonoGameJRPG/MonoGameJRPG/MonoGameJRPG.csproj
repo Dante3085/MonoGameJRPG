@@ -46,6 +46,7 @@
     <Compile Include="General\Menus\Layouts\VBox.cs" />
     <Compile Include="General\Menus\Menu.cs" />
     <Compile Include="General\Menus\MenuButton.cs" />
+    <Compile Include="General\Menus\MenuButtonFunctionality.cs" />
     <Compile Include="General\Menus\MenuElement.cs" />
     <Compile Include="General\SpriteState.cs" />
     <Compile Include="TwoDGameEngine\GameConsole\Command.cs" />

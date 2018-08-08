@@ -36,7 +36,7 @@ namespace MonoGameJRPG.General.Menus.Layouts
             for (int i = 1; i < _elements.Count; i++)
             {
                 _elements[i].X = _position.X;
-                _elements[i].Y = _elements[i - 1].Y + _elements[i - 1].Height;
+                _elements[i].Y = _elements[i - 1].Y + _elements[i - 1].Height + _verticalOffset;
             }
         }
 
