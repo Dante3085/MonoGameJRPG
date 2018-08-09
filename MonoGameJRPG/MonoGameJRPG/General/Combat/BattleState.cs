@@ -11,7 +11,7 @@ namespace MonoGameJRPG.General.Combat
     /// <summary>
     /// Defines Combat in the game.
     /// </summary>
-    public class BattleState : State, IState
+    public class BattleState : State
     {
         /// <summary>
         /// PlayerDecides and AIDecides are stored here.
@@ -40,13 +40,13 @@ namespace MonoGameJRPG.General.Combat
         {
             // Add States necessary for combat to StateMachine.
 
-            _battleStates.Add(EState.Tick, new BattleTick(_battleStates, _actions));
-            _battleStates.Add(EState.Execute, new BattleExecute(_battleStates, _actions));
+            _battleStates.Add(EState.BattleTick, new BattleTick(_battleStates, _actions));
+            _battleStates.Add(EState.BattleExecute, new BattleExecute(_battleStates, _actions));
         }
 
-        public void OnEnter()
+        public override void OnEnter()
         {
-            _battleStates.Change(EState.Tick);
+            _battleStates.Change(EState.BattleTick);
 
             //
             // Get a decision action for every entity in the action queue
@@ -70,17 +70,17 @@ namespace MonoGameJRPG.General.Combat
             // SortDescending(_actions);
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             throw new NotImplementedException();
         }
 
-        public void Render()
+        public override void Render()
         {
             _battleStates.Render();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             _battleStates.Update(gameTime);
         }

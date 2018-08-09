@@ -1,13 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameJRPG.General;
+using MonoGameJRPG.General.Characters;
+using MonoGameJRPG.General.Maps;
 using MonoGameJRPG.General.Menus;
 using MonoGameJRPG.General.Menus.Layouts;
 using MonoGameJRPG.General.States;
 using MonoGameJRPG.TwoDGameEngine.Input;
 using MonoGameJRPG.TwoDGameEngine.Sprite;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework.Content;
 using VosSoft.Xna.GameConsole;
 
 namespace MonoGameJRPG
@@ -17,26 +22,31 @@ namespace MonoGameJRPG
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public static Time _time;
+        public static GameConsole _gameConsole;
 
-        public static GameConsole gameConsole;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
+        // Screen Width and Height
+        private int _screenWidth;
+        private int _screenHeight;
+
+        /// <summary>
+        /// Controls states of this game.
+        /// </summary>
         private StateStack _stateStack;
-
-        private int screenWidth;
-        private int screenHeight;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            //graphics.PreferredBackBufferWidth = 3240;
-            //graphics.PreferredBackBufferHeight = 2160;
+            _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 3240;
+            _graphics.PreferredBackBufferHeight = 2160;
 
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            //_graphics.PreferredBackBufferWidth = 1920;
+            //_graphics.PreferredBackBufferHeight = 1080;
 
-            graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = true;
 
             IsMouseVisible = true;
             Content.RootDirectory = "Content";
@@ -51,29 +61,36 @@ namespace MonoGameJRPG
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameConsole = new GameConsole(this, "german", Content);
-            gameConsole.IsFullscreen = true;
+            _time = new Time();
 
-            screenWidth = graphics.PreferredBackBufferWidth;
-            screenHeight = graphics.PreferredBackBufferHeight;
+            _gameConsole = new GameConsole(this, "german", Content);
+            _gameConsole.IsFullscreen = true;
+
+            _screenWidth = _graphics.PreferredBackBufferWidth;
+            _screenHeight = _graphics.PreferredBackBufferHeight;
 
             base.Initialize();
         }
 
         #region ButtonFunctionalityMethods
-        private void PushGameState()
+        private void QuitGame()
         {
-            _stateStack.Push(EState.GameState);
+            Exit();
         }
 
-        public void PopStateStack()
+        private void StateStackPush_FirstMapState()
+        {
+            _stateStack.Push(EState.FirstMapState);
+        }
+
+        private void StateStackPush_InventoryState()
+        {
+            _stateStack.Push(EState.InventoryState);
+        }
+
+        private void StateStackPop()
         {
             _stateStack.Pop();
-        }
-
-        public void SayHiInConsole()
-        {
-            gameConsole.Log("Hi");
         }
         #endregion
 
@@ -84,66 +101,71 @@ namespace MonoGameJRPG
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D mainMenuBackground = Content.Load<Texture2D>("DeusExMainMenu");
-            Texture2D gameBackground = Content.Load<Texture2D>("Space");
+            // TODO: use this.Content to load your game content here
+            Texture2D mainMenuBackground = Content.Load<Texture2D>("Space");
+            Texture2D firstMapBackground = Content.Load<Texture2D>("samurai");
             Texture2D playerSheet = Content.Load<Texture2D>("playerSheet");
             Texture2D btnNoHover = Content.Load<Texture2D>("btnNoHover");
             Texture2D btnHover = Content.Load<Texture2D>("btnHover");
+            Texture2D inventoryBackground = Content.Load<Texture2D>("blueBackground");
 
-            MenuButton button1 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
-            MenuButton button2 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
-            MenuButton button3 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
-            MenuButton button4 = new MenuButton(btnNoHover, btnHover, function: PushGameState);
-            VBox<MenuButton> vbox = new VBox<MenuButton>(Vector2.Zero, 5, button1, button2, button3, button4 );
+            SpriteFont fontNoHover = Content.Load<SpriteFont>("FontNoHover");
+            SpriteFont fontHover = Content.Load<SpriteFont>("FontHover");
 
             Menu mainMenu = new Menu(new List<MenuElement>()
             {
-                vbox
-            });
-
-            Menu gameMenu = new Menu(new List<MenuElement>()
-            {
-                new HBox<MenuButton>(Vector2.Zero, 0, new MenuButton[]
+                new VBox<MenuButton>(Vector2.Zero, 10, new MenuButton[]
                 {
-                    new MenuButton(btnNoHover, btnHover, function: PopStateStack),
-                    new MenuButton(btnNoHover, btnHover, function: SayHiInConsole)
-                }),
+                    new MenuButton(btnNoHover, btnHover, function: StateStackPush_FirstMapState),
+                    new MenuButton(btnNoHover, btnHover, function: QuitGame)
+                })
             });
 
-            AnimatedSprite player1 = new AnimatedSprite("Player1", new Vector2(100, 100), PlayerIndex.One, GraphicsDevice, playerSheet, new KeyboardInput()
+            Menu mapMenu = new Menu(new List<MenuElement>()
             {
-                Left = Keys.A,
-                Up = Keys.W,
-                Right = Keys.D,
-                Down = Keys.S
+                new VBox<MenuButton>(Vector2.Zero, 10, new MenuButton[]
+                {
+                    new MenuButton(btnNoHover, btnHover, function: StateStackPush_InventoryState), 
+                    new MenuButton(btnNoHover, btnHover, function: StateStackPop)
+                })
             });
-            AnimatedSprite player2 = new AnimatedSprite("Player2", new Vector2(200, 100), PlayerIndex.Two, GraphicsDevice, playerSheet, new KeyboardInput()
+
+            Menu inventoryMenu = new Menu(new List<MenuElement>()
             {
-                Left = Keys.Left,
-                Up = Keys.Up,
-                Right = Keys.Right,
-                Down = Keys.Down
+                new MenuButton(btnNoHover, btnHover, function: StateStackPop)
             });
 
-            List<AnimatedSprite> sprites = new List<AnimatedSprite>();
-            sprites.Add(player1);
-            sprites.Add(player2);
-
-            _stateStack = new StateStack(new Dictionary<EState, IState>()
+            List<Character> _animatedSprites = new List<Character>()
             {
-                { EState.MainMenu, new MainMenuState(mainMenu, spriteBatch, mainMenuBackground, screenWidth, screenHeight) },
-                { EState.GameState, new GameState(gameMenu, spriteBatch, gameBackground, screenWidth, screenHeight) },
-                { EState.SpriteState, new SpriteState(sprites, spriteBatch, gameBackground, screenWidth, screenHeight)}
+                new Character("Player 1", 1000, 99, 10, 10, 10, 10, 10, true, new KeyboardInput()
+                {
+                    Left = Keys.A,
+                    Up = Keys.W,
+                    Right = Keys.D,
+                    Down = Keys.S
+                }, animatedSprite: new AnimatedSprite("Player 1 Sprite", new Vector2(300, 300), PlayerIndex.One, GraphicsDevice, playerSheet)),
 
+                new Character("Player 2", 200, 700, 10, 10, 10, 10, 10, true, new KeyboardInput()
+                {
+                    Left = Keys.Left,
+                    Up = Keys.Up,
+                    Right = Keys.Right,
+                    Down = Keys.Down
+                }, animatedSprite: new AnimatedSprite("Player 2 Sprite", new Vector2(400, 300), PlayerIndex.Two, GraphicsDevice, playerSheet))
+            };
+
+            _stateStack = new StateStack(new Dictionary<EState, State>()
+            {
+                { EState.MainMenuState, new MainMenuState(mainMenu, _spriteBatch, mainMenuBackground, _screenWidth, _screenHeight)},
+                { EState.FirstMapState, new FirstMapState(mapMenu, _spriteBatch, firstMapBackground, _screenWidth, _screenHeight, _animatedSprites) },
+                { EState.InventoryState, new InventoryState(fontNoHover, fontHover, _spriteBatch, inventoryBackground, _screenWidth, _screenHeight, 
+                    StateStackPop, textures: new Texture2D[]{btnNoHover, btnHover}) }
             });
 
-            _stateStack.Push(EState.MainMenu);
-            _stateStack.Push(EState.GameState);
-            _stateStack.Push(EState.SpriteState);
+            _stateStack.Push(EState.MainMenuState);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -162,21 +184,16 @@ namespace MonoGameJRPG
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            _time.Update(gameTime);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
             InputManager.UpdateCurrentStates();
 
-            if (InputManager.OnKeyDown(Keys.F1))
-                _stateStack.Pop();
-            else if (InputManager.OnKeyDown(Keys.F2))
-                _stateStack.Push(EState.GameState);
-            else if (InputManager.OnKeyDown(Keys.F3))
-                _stateStack.Push(EState.SpriteState);
-
             if (InputManager.OnKeyDown(Keys.Tab))
-                gameConsole.Open(Keys.Tab);
+                _gameConsole.Open(Keys.Tab);
 
             _stateStack.Update(gameTime);
 
@@ -194,11 +211,11 @@ namespace MonoGameJRPG
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
 
             _stateStack.Render();
 
-            spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

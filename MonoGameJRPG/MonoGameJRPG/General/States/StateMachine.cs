@@ -9,8 +9,8 @@ namespace MonoGameJRPG.General.States
 {
     public class StateMachine
     {
-        Dictionary<EState, IState> _states = new Dictionary<EState, IState>();
-        IState _currentState = new EmptyState();
+        Dictionary<EState, State> _states = new Dictionary<EState, State>();
+        State _currentState = new EmptyState();
 
         public void Update(GameTime gameTime)
         {
@@ -29,7 +29,7 @@ namespace MonoGameJRPG.General.States
             _currentState.OnEnter(/*params*/);
         }
 
-        public void Add(EState stateName, IState state)
+        public void Add(EState stateName, State state)
         {
             _states[stateName] = state;
         }

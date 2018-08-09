@@ -9,10 +9,10 @@ namespace MonoGameJRPG.General.States
 {
     public class StateStack
     {
-        Dictionary<EState, IState> _states;
-        Stack<IState> _stack = new Stack<IState>();
+        Dictionary<EState, State> _states;
+        Stack<State> _stack = new Stack<State>();
 
-        public StateStack(Dictionary<EState, IState> states)
+        public StateStack(Dictionary<EState, State> states)
         {
             _states = states;
         }
@@ -31,7 +31,7 @@ namespace MonoGameJRPG.General.States
         {
             if (_stack.Count != 0)
             {
-                // Return if IState that is on top of Stack is IState to be pushed
+                // Return if IState that is on top of Stack is State to be pushed
                 if (_stack.Peek().Equals(_states[state]))
                     return;
             }
@@ -39,14 +39,15 @@ namespace MonoGameJRPG.General.States
             _stack.Push(_states[state]);
         }
 
-        public IState Pop()
+        public State Pop()
         {
-            IState state = _stack.Pop();
+            State temp = _stack.Pop();
 
+            // Stack can't be empty. Closing the 
             if (_stack.Count == 0)
-                _stack.Push(state);
+                _stack.Push(temp);
 
-            return state;
+            return temp;
         }
     }
 }

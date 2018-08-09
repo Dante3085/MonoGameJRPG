@@ -316,7 +316,10 @@ namespace MonoGameJRPG.TwoDGameEngine.Sprite
                         _collisionDetected = true;
 
             if (_collisionDetected)
+            {
+                Game1._gameConsole.Log("Kollision festgestellt");
                 DrawBoundingBox(spriteBatch, Color.Red);
+            }
             else
                 DrawBoundingBox(spriteBatch, Color.Blue);
 

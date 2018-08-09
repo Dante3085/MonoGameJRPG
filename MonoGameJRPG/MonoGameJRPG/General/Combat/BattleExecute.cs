@@ -12,33 +12,33 @@ namespace MonoGameJRPG.General.Combat
     /// <summary>
     /// Responsible for 
     /// </summary>
-    public class BattleExecute : IState
+    public class BattleExecute : State
     {
         private StateMachine _battleStates;
         private List<IAction> _actions;
 
-        public BattleExecute(StateMachine stateMachine, List<IAction> actions)
+        public BattleExecute(StateMachine stateMachine, List<IAction> actions) : base(null, null, 0, 0)
         {
             _battleStates = stateMachine;
             _actions = actions;
         }
 
-        public void OnEnter()
+        public override void OnEnter()
         {
             throw new NotImplementedException();
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             throw new NotImplementedException();
         }
 
-        public void Render()
+        public override void Render()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             // Play Animations
 

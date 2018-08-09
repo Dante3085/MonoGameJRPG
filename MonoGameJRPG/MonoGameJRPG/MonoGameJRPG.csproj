@@ -42,13 +42,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="General\Combat\BattleExecute.cs" />
+    <Compile Include="General\Maps\FirstMapState.cs" />
+    <Compile Include="General\Menus\InventoryState.cs" />
     <Compile Include="General\Menus\Layouts\HBox.cs" />
     <Compile Include="General\Menus\Layouts\VBox.cs" />
     <Compile Include="General\Menus\Menu.cs" />
     <Compile Include="General\Menus\MenuButton.cs" />
-    <Compile Include="General\Menus\MenuButtonFunctionality.cs" />
     <Compile Include="General\Menus\MenuElement.cs" />
-    <Compile Include="General\SpriteState.cs" />
+    <Compile Include="TwoDGameEngine\Text.cs" />
+    <Compile Include="TwoDGameEngine\Time.cs" />
     <Compile Include="TwoDGameEngine\GameConsole\Command.cs" />
     <Compile Include="TwoDGameEngine\GameConsole\CommandEventArgs.cs" />
     <Compile Include="TwoDGameEngine\GameConsole\GameConsole.cs" />
@@ -80,12 +82,10 @@
     <Compile Include="General\Combat\IAction.cs" />
     <Compile Include="General\Combat\PlayerDecide.cs" />
     <Compile Include="General\States\EState.cs" />
-    <Compile Include="General\States\IState.cs" />
     <Compile Include="General\States\StateMachine.cs" />
     <Compile Include="General\States\StateStack.cs" />
     <Compile Include="General\Combat\BattleState.cs" />
     <Compile Include="General\States\EmptyState.cs" />
-    <Compile Include="General\GameState.cs" />
     <Compile Include="General\Menus\MainMenuState.cs" />
     <Compile Include="General\States\State.cs" />
     <Compile Include="Program.cs" />
@@ -96,6 +96,7 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

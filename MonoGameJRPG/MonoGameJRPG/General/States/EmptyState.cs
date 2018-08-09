@@ -7,24 +7,29 @@ using Microsoft.Xna.Framework;
 
 namespace MonoGameJRPG.General.States
 {
-    public class EmptyState : IState
+    public class EmptyState : State
     {
-        public void OnEnter()
+        public EmptyState() : base(null, null, 0, 0)
+        {
+
+        }
+
+        public override void OnEnter()
         {
             throw new NotImplementedException();
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             throw new NotImplementedException();
         }
 
-        public void Render()
+        public override void Render()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             throw new NotImplementedException();
         }
