@@ -17,7 +17,7 @@ namespace MonoGameJRPG.General.Menus
         // private VBox<CharacterInfo> _characterInfos;
         private VBox _options;
         private VBox _timeGil;
-        private HBox _allBox;
+        // private HBox _allBox;
         private Text _currentLocation;
         private Text _time;
         private MenuButton _exitButton;
@@ -96,14 +96,9 @@ namespace MonoGameJRPG.General.Menus
 
             _currentLocation = new Text(_fontNoHover, _fontHover, "Location: Map A");
 
-            _allBox = new HBox(100, 100, elements: new MenuElement[]
-            {
-                _options, _timeGil, _currentLocation
-            });
-
             _inventoryMenu = new Menu(new List<MenuElement>()
             {
-                _exitButton, _allBox
+                _exitButton, _options, _time, _currentLocation
             });
         }
     }

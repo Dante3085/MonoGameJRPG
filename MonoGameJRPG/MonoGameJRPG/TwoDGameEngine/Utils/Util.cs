@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoGameJRPG.TwoDGameEngine.Util
+namespace MonoGameJRPG.TwoDGameEngine.Utils
 {
     public static class Util
     {

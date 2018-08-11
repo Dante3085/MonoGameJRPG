@@ -13,7 +13,7 @@ using MonoGameJRPG.TwoDGameEngine.Sprite;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Content;
-using MonoGameJRPG.TwoDGameEngine.Util;
+using MonoGameJRPG.TwoDGameEngine.Utils;
 using VosSoft.Xna.GameConsole;
 
 namespace MonoGameJRPG
@@ -39,7 +39,7 @@ namespace MonoGameJRPG
         private StateStack _stateStack;
 
         private Rectangle[] lines;
-        private Texture2D recTex;
+        public static Texture2D recTex;
         private int c = 0;
 
         public Game1()

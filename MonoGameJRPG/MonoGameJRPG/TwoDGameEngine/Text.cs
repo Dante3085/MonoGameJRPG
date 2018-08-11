@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameJRPG.General.Menus;
 using MonoGameJRPG.TwoDGameEngine.Input;
+using MonoGameJRPG.TwoDGameEngine.Utils;
 
 namespace MonoGameJRPG.TwoDGameEngine
 {
@@ -123,6 +124,13 @@ namespace MonoGameJRPG.TwoDGameEngine
         public override void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(_activeSpriteFont, _text, new Vector2(_x, _y), Color.Black);
+            Util.DrawRectangle(spriteBatch, _textRec, new Rectangle[]
+            {
+                new Rectangle(),
+                new Rectangle(),
+                new Rectangle(),
+                new Rectangle(), 
+            }, Game1.recTex,Color.Red);
         }
     }
 }

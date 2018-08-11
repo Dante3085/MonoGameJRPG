@@ -92,7 +92,7 @@
     <Compile Include="General\States\State.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwoDGameEngine\Util\Util.cs" />
+    <Compile Include="TwoDGameEngine\Utils\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
