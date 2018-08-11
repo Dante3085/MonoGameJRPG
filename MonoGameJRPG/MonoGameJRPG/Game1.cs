@@ -13,6 +13,7 @@ using MonoGameJRPG.TwoDGameEngine.Sprite;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework.Content;
+using MonoGameJRPG.TwoDGameEngine.Util;
 using VosSoft.Xna.GameConsole;
 
 namespace MonoGameJRPG
@@ -36,6 +37,10 @@ namespace MonoGameJRPG
         /// Controls states of this game.
         /// </summary>
         private StateStack _stateStack;
+
+        private Rectangle[] lines;
+        private Texture2D recTex;
+        private int c = 0;
 
         public Game1()
         {
@@ -65,6 +70,14 @@ namespace MonoGameJRPG
 
             _screenWidth = _graphics.PreferredBackBufferWidth;
             _screenHeight = _graphics.PreferredBackBufferHeight;
+
+            lines = new Rectangle[4]
+            {
+                new Rectangle(),
+                new Rectangle(),
+                new Rectangle(),
+                new Rectangle()
+            };
 
             base.Initialize();
         }
@@ -107,6 +120,9 @@ namespace MonoGameJRPG
             Texture2D btnNoHover = Content.Load<Texture2D>("btnNoHover");
             Texture2D btnHover = Content.Load<Texture2D>("btnHover");
             Texture2D inventoryBackground = Content.Load<Texture2D>("blueBackground");
+
+            recTex = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            recTex.SetData(new[] { Color.White });
 
             SpriteFont fontNoHover = Content.Load<SpriteFont>("FontNoHover");
             SpriteFont fontHover = Content.Load<SpriteFont>("FontHover");

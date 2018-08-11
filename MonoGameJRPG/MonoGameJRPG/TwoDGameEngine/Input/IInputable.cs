@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MonoGameJRPG.TwoDGameEngine
 {
     /// <summary>
-    /// All clas
+    /// All types that can receive and handle input.
     /// </summary>
     public interface IInputable
     {

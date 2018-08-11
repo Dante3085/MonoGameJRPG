@@ -58,6 +58,9 @@ namespace MonoGameJRPG.General.Menus.Layouts
             foreach (MenuElement m in _elements)
                 if (m.Height > height)
                     height = m.Height;
+
+            Game1._gameConsole.Log("Tallest: " + height);
+
             return height;
         }
 
@@ -68,6 +71,9 @@ namespace MonoGameJRPG.General.Menus.Layouts
             foreach (MenuElement m in _elements)
                 if (m.Width > width)
                     width = m.Width;
+
+            Game1._gameConsole.Log("Widest: " + width);
+
             return width;
         }
 
@@ -99,6 +105,8 @@ namespace MonoGameJRPG.General.Menus.Layouts
         {
             foreach (MenuElement m in _elements)
                 m.Update(gameTime);
+            WidthWidestElement();
+            HeightTallestElement();
         }
 
         public override void ExecuteFunctionality()
