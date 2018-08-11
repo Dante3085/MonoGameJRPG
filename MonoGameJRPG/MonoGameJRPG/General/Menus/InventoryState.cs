@@ -17,6 +17,7 @@ namespace MonoGameJRPG.General.Menus
         // private VBox<CharacterInfo> _characterInfos;
         private VBox _options;
         private VBox _timeGil;
+        private HBox _allBox;
         private Text _currentLocation;
         private Text _time;
         private MenuButton _exitButton;
@@ -72,7 +73,7 @@ namespace MonoGameJRPG.General.Menus
         {
             _exitButton = new MenuButton(_textures[0], _textures[1], 0, 0, function: _exitBtnAction);
 
-            _options = new VBox(100, 0, 30, new MenuElement[]
+            _options = new VBox(30, elements: new MenuElement[]
             {
                 new Text(_fontNoHover, _fontHover, "Item"),
                 new Text(_fontNoHover, _fontHover, "Magic"),
@@ -87,17 +88,22 @@ namespace MonoGameJRPG.General.Menus
 
             _time = new Text(_fontNoHover, _fontHover, Game1._time.ToString());
 
-            _timeGil = new VBox(300, 1000, 10, new Text[]
+            _timeGil = new VBox(10, elements: new Text[]
             {
                 _time,
                 new Text(_fontNoHover, _fontHover, "Gil: 0"),
             });
 
-            _currentLocation = new Text(_fontNoHover, _fontHover, "Location: Map A", 1000, 100);
+            _currentLocation = new Text(_fontNoHover, _fontHover, "Location: Map A");
+
+            _allBox = new HBox(100, 100, elements: new MenuElement[]
+            {
+                _options, _timeGil, _currentLocation
+            });
 
             _inventoryMenu = new Menu(new List<MenuElement>()
             {
-                _exitButton, _options, _timeGil, _currentLocation
+                _exitButton, _allBox
             });
         }
     }

@@ -129,7 +129,7 @@ namespace MonoGameJRPG
             });
             Menu inventoryMenu = new Menu(new List<MenuElement>()
             {
-                new MenuButton(btnNoHover, btnHover, function: StateStackPop)
+                new MenuButton(btnNoHover, btnHover, function: StateStackPop),
             });
 
             List<Character> characters = new List<Character>()
