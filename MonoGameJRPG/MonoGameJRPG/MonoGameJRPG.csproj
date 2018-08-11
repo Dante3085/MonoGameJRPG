@@ -45,6 +45,7 @@
     <Compile Include="General\Maps\FirstMapState.cs" />
     <Compile Include="General\Menus\InventoryState.cs" />
     <Compile Include="General\Menus\Layouts\HBox.cs" />
+    <Compile Include="General\Menus\Layouts\Layout.cs" />
     <Compile Include="General\Menus\Layouts\VBox.cs" />
     <Compile Include="General\Menus\Menu.cs" />
     <Compile Include="General\Menus\MenuButton.cs" />

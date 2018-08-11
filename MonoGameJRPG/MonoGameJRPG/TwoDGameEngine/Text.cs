@@ -6,7 +6,7 @@ using MonoGameJRPG.TwoDGameEngine.Input;
 
 namespace MonoGameJRPG.TwoDGameEngine
 {
-    public class Text : MenuElement, ILocatable, IOrderable
+    public class Text : MenuElement
     {
         #region MemberVariables
         private string _text;
@@ -14,31 +14,32 @@ namespace MonoGameJRPG.TwoDGameEngine
         private SpriteFont _activeSpriteFont;
         private SpriteFont _spriteFontNoHover;
         private SpriteFont _spriteFontHover;
+        private Vector2 _textSize;
 
-        private float _x;
-        private float _y;
+        private int _x;
+        private int _y;
+
+        private bool _logValuesToConsole = false;
         #endregion
 
         #region Properties
-        public float X
+        public override int X
         {
             get => _x;
             set => _x = value;
         }
 
-        public float Y
+        public override int Y
         {
             get => _y;
             set => _y = value;
         }
 
-        // MeasureString() returns a Vector2. Vector2.X is Width. Vector2.Y is Height. http://msdn.microsoft.com/en-us/library/microsoft.xna.framework.graphics.spritefont_members.aspx
-        public int Width => (int)_spriteFontNoHover.MeasureString(_text).X;
-        public int Height => (int) _spriteFontNoHover.MeasureString(_text).Y;
-
+        public override int Width => _textRec.Width;
+        public override int Height => _textRec.Height;
         #endregion
 
-        public Text(SpriteFont spriteFontNoHover, SpriteFont spriteFontHover, string text = "", float x = 0, float y = 0)
+        public Text(SpriteFont spriteFontNoHover, SpriteFont spriteFontHover, string text = "", int x = 0, int y = 0)
         {
             _text = text;
             _spriteFontNoHover = spriteFontNoHover;
@@ -46,7 +47,9 @@ namespace MonoGameJRPG.TwoDGameEngine
 
             _activeSpriteFont = spriteFontNoHover;
 
-            _textRec = new Rectangle((int)x, (int)y, Width, Height);
+            // MeasureString() returns a Vector2. Vector2.X is Width. Vector2.Y is Height. http://msdn.microsoft.com/en-us/library/microsoft.xna.framework.graphics.spritefont_members.aspx
+            _textSize = _activeSpriteFont.MeasureString(_text);
+            _textRec = new Rectangle(x, y, (int)_textSize.X, (int)_textSize.Y);
 
             _x = x;
             _y = y;
@@ -59,8 +62,19 @@ namespace MonoGameJRPG.TwoDGameEngine
 
         public override void Update(GameTime gameTime)
         {
+            _textSize = _activeSpriteFont.MeasureString(_text);
+
+            // Update _textRec x,y, Position
             _textRec.X = (int)_x;
             _textRec.Y = (int)_y;
+
+            // Update _textRec size.
+            _textRec.Width = (int)_textSize.X;
+            _textRec.Height = (int)_textSize.Y;
+
+            if (_logValuesToConsole)
+                Game1._gameConsole.Log("Text[" + _x + ", " + _y + ", " + _textSize.X + ", " + _textSize.Y
+                                       + "], TextRec: " + _textRec.ToString());
 
             OnMouseHoverReactions();
 

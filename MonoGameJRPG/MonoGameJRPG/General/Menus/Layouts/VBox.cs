@@ -1,24 +1,70 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGameJRPG.TwoDGameEngine;
 using System;
 using System.Collections.Generic;
 
 namespace MonoGameJRPG.General.Menus.Layouts
 {
-    public class VBox<T> : MenuElement where T : MenuElement, ILocatable, IOrderable
+    public class VBox : Layout
     {
-        private Vector2 _position;
-        private float _verticalOffset;
-        private List<T> _elements = new List<T>();
+        #region MemberVariables
+        private int _x;
+        private int _y;
+        private int _verticalOffset;
+        private List<MenuElement> _elements = new List<MenuElement>();
+        #endregion
 
-        public VBox(Vector2 position, float verticalOffset = 0, params T[] elements)
+        #region Properties
+        public override int Width => WidthWidestElement();
+        public override int Height => HeightTallestElement();
+        public override int X
         {
-            _position = position;
+            get => _x;
+            set => _x = value;
+        }
+        public override int Y
+        {
+            get => _y;
+            set => _y = value;
+        }
+        public override int Offset
+        {
+            get => _verticalOffset;
+            set => _verticalOffset = value;
+        }
+        #endregion
+
+        public VBox(int x = 0, int y = 0, int verticalOffset = 0, params MenuElement[] elements)
+        {
+            _x = x;
+            _y = y;
             _verticalOffset = verticalOffset;
 
             if (elements != null)
-                AddRange(elements);
+            {
+                _elements.AddRange(elements);
+                OrderVertically();
+            }
+        }
+
+        private int HeightTallestElement()
+        {
+            int height = _elements[0].Height;
+
+            foreach(MenuElement m in _elements)
+                if (m.Height > height)
+                    height = m.Height;
+            return height;
+        }
+
+        private int WidthWidestElement()
+        {
+            int width = _elements[0].Width;
+
+            foreach (MenuElement m in _elements)
+                if (m.Width > width)
+                    width = m.Width;
+            return width;
         }
 
         /// <summary>
@@ -28,33 +74,27 @@ namespace MonoGameJRPG.General.Menus.Layouts
         private void OrderVertically()
         {
             // Position first element at upper left corner of VBox.
-            _elements[0].X = _position.X;
-            _elements[0].Y = _position.Y;
+            _elements[0].X = this._x;
+            _elements[0].Y = this._y;
 
             // Position every element (except first) at VBox.X and VBox.Y + previousElement.Y + verticalOffset.
             // Makes it so that elements aren't stacked on top of each other and variables spacing is possible.
             for (int i = 1; i < _elements.Count; i++)
             {
-                _elements[i].X = _position.X;
+                _elements[i].X = this._x;
                 _elements[i].Y = _elements[i - 1].Y + _elements[i - 1].Height + _verticalOffset;
             }
         }
 
-        public void Add(T element)
+        public override List<MenuElement> Elements()
         {
-            _elements.Add(element);
-        }
-
-        public void AddRange(params T[] elements)
-        {
-            _elements.AddRange(elements);
-            OrderVertically();
+            return _elements;
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (T t in _elements)
-                t.Update(gameTime);
+            foreach (MenuElement m in _elements)
+                m.Update(gameTime);
         }
 
         public override void ExecuteFunctionality()
@@ -69,8 +109,8 @@ namespace MonoGameJRPG.General.Menus.Layouts
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            foreach (T t in _elements)
-                t.Render(spriteBatch);
+            foreach (MenuElement m in _elements)
+                m.Render(spriteBatch);
         }
     }
 }

@@ -116,28 +116,26 @@ namespace MonoGameJRPG
 
             Menu mainMenu = new Menu(new List<MenuElement>()
             {
-                new VBox<MenuButton>(Vector2.Zero, 10, new MenuButton[]
+                new VBox(0, 0, 10, new MenuButton[]
                 {
                     new MenuButton(btnNoHover, btnHover, function: StateStackPush_FirstMapState),
                     new MenuButton(btnNoHover, btnHover, function: QuitGame)
                 })
             });
-
             Menu mapMenu = new Menu(new List<MenuElement>()
             {
-                new VBox<MenuButton>(Vector2.Zero, 10, new MenuButton[]
+                new VBox(0, 0, 0, new MenuButton[]
                 {
                     new MenuButton(btnNoHover, btnHover, function: StateStackPush_InventoryState), 
-                    new MenuButton(btnNoHover, btnHover, function: StateStackPop)
+                    new MenuButton(btnNoHover, btnHover, function: StateStackPop),
                 })
             });
-
             Menu inventoryMenu = new Menu(new List<MenuElement>()
             {
                 new MenuButton(btnNoHover, btnHover, function: StateStackPop)
             });
 
-            List<Character> _animatedSprites = new List<Character>()
+            List<Character> characters = new List<Character>()
             {
                 new Character("Player 1", 1000, 99, 10, 10, 10, 10, 10, true, new KeyboardInput()
                 {
@@ -159,7 +157,7 @@ namespace MonoGameJRPG
             _stateStack = new StateStack(new Dictionary<EState, State>()
             {
                 { EState.MainMenuState, new MainMenuState(mainMenu, _spriteBatch, mainMenuBackground, _screenWidth, _screenHeight)},
-                { EState.FirstMapState, new FirstMapState(mapMenu, _spriteBatch, firstMapBackground, _screenWidth, _screenHeight, _animatedSprites) },
+                { EState.FirstMapState, new FirstMapState(mapMenu, _spriteBatch, firstMapBackground, _screenWidth, _screenHeight, characters) },
                 { EState.InventoryState, new InventoryState(fontNoHover, fontHover, _spriteBatch, inventoryBackground, _screenWidth, _screenHeight, 
                     StateStackPop, textures: new Texture2D[]{btnNoHover, btnHover}) }
             });

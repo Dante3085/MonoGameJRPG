@@ -6,7 +6,7 @@ using System;
 
 namespace MonoGameJRPG.General.Menus
 {
-    public class MenuButton : MenuElement, ILocatable, IOrderable
+    public class MenuButton : MenuElement
     {
         #region MemberVariables
         private Texture2D _buttonTextureNoHover;
@@ -19,27 +19,21 @@ namespace MonoGameJRPG.General.Menus
         #endregion
 
         #region Properties
-        public float X
+        public override int X
         {
-            get { return _buttonRec.X; }
-            set { _buttonRec.X = (int)value; }
+            get => _buttonRec.X;
+            set => _buttonRec.X = value;
         }
 
-        public float Y
+        public override int Y
         {
-            get { return _buttonRec.Y; }
-            set { _buttonRec.Y = (int)value; }
+            get => _buttonRec.Y;
+            set => _buttonRec.Y = value;
         }
 
-        public int Width
-        {
-            get { return _buttonRec.Width; }
-        }
+        public override int Width => _buttonRec.Width;
+        public override int Height => _buttonRec.Height;
 
-        public int Height
-        {
-            get { return _buttonRec.Height; }
-        }
         #endregion
 
         public MenuButton(Texture2D buttonTextureNoHover, Texture2D buttonTextureHover, int x = 0, int y = 0, Action function = null)

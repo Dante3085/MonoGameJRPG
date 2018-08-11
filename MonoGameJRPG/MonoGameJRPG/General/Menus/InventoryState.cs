@@ -15,8 +15,8 @@ namespace MonoGameJRPG.General.Menus
         // TODO: Äußere Abhängigkeiten sollen übergeben werden, der Zusammenbau des Menüs soll aber hier gemacht werden.
         private Menu _inventoryMenu;
         // private VBox<CharacterInfo> _characterInfos;
-        private VBox<Text> _options;
-        private VBox<Text> _timeGil;
+        private VBox _options;
+        private VBox _timeGil;
         private Text _currentLocation;
         private Text _time;
         private MenuButton _exitButton;
@@ -72,7 +72,7 @@ namespace MonoGameJRPG.General.Menus
         {
             _exitButton = new MenuButton(_textures[0], _textures[1], 0, 0, function: _exitBtnAction);
 
-            _options = new VBox<Text>(new Vector2(5, 100), 10, new Text[]
+            _options = new VBox(100, 0, 30, new MenuElement[]
             {
                 new Text(_fontNoHover, _fontHover, "Item"),
                 new Text(_fontNoHover, _fontHover, "Magic"),
@@ -87,7 +87,7 @@ namespace MonoGameJRPG.General.Menus
 
             _time = new Text(_fontNoHover, _fontHover, Game1._time.ToString());
 
-            _timeGil = new VBox<Text>(new Vector2(300, 100), 10, new Text[]
+            _timeGil = new VBox(300, 1000, 10, new Text[]
             {
                 _time,
                 new Text(_fontNoHover, _fontHover, "Gil: 0"),

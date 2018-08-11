@@ -76,7 +76,6 @@ namespace MonoGameJRPG.TwoDGameEngine.Sprite
             _boundingBoxTopLine.Height = 2;
             _boundingBoxRightLine.Width = 2;
             _boundingBoxBottomLine.Height = 2;
-
         }
 
         private void AddAnimation(int numFrames, int yPos, int xStartFrame, string name, int width, int height, Vector2 offset)

@@ -9,19 +9,66 @@ using System.Threading.Tasks;
 
 namespace MonoGameJRPG.General.Menus.Layouts
 {
-    public class HBox<T> : MenuElement where T : MenuElement, ILocatable, IOrderable
+    public class HBox : Layout
     {
-        private Vector2 _position;
-        private float _horizontalOffset;
-        private List<T> _elements = new List<T>();
+        #region MemberVariables
+        private int _x;
+        private int _y;
+        private int _horizontalOffset;
+        private List<MenuElement> _elements = new List<MenuElement>();
+        #endregion
 
-        public HBox(Vector2 position, float horizontalOffset, params T[] elements)
+        #region Properties
+        public override int Width => WidthWidestElement();
+        public override int Height => HeightTallestElement();
+        public override int X
         {
-            _position = position;
+            get => _x;
+            set => _x = value;
+        }
+        public override int Y
+        {
+            get => _y;
+            set => _y = value;
+        }
+        public override int Offset
+        {
+            get => _horizontalOffset;
+            set => _horizontalOffset = value;
+        }
+        #endregion
+
+        public HBox(int x = 0, int y = 0, int horizontalOffset = 0, params MenuElement[] elements)
+        {
+            _x = x;
+            _y = y;
             _horizontalOffset = horizontalOffset;
 
             if (elements != null)
-                AddRange(elements);
+            {
+                _elements.AddRange(elements);
+                OrderHorizontally();
+            }
+        }
+
+        private int HeightTallestElement()
+        {
+            int height = _elements[0].Height;
+
+            foreach (MenuElement m in _elements)
+                if (m.Height > height)
+                    height = m.Height;
+            return height;
+        }
+
+        private int WidthWidestElement()
+        {
+            int width = _elements[0].Width;
+
+            foreach (MenuElement m in _elements)
+                if (m.Width > width)
+                    width = m.Width;
+            return width;
         }
 
         /// <summary>
@@ -31,33 +78,27 @@ namespace MonoGameJRPG.General.Menus.Layouts
         private void OrderHorizontally()
         {
             // Position first element at upper left corner of VBox.
-            _elements[0].X = _position.X;
-            _elements[0].Y = _position.Y;
+            _elements[0].X = this._x;
+            _elements[0].Y = this._y;
 
             // Position every element (except first) at VBox.Y and VBox.X + previousElement.X + horizontalOffset.
             // Makes it so that elements aren't stacked on top of each other and variable spacing is possible.
             for (int i = 1; i < _elements.Count; i++)
             {
-                _elements[i].Y = _position.Y;
+                _elements[i].Y = this._y;
                 _elements[i].X = _elements[i - 1].X + _elements[i - 1].Width + _horizontalOffset;
             }
         }
 
-        public void Add(T element)
+        public override List<MenuElement> Elements()
         {
-            _elements.Add(element);
-        }
-
-        public void AddRange(params T[] elements)
-        {
-            _elements.AddRange(elements);
-            OrderHorizontally();
+            return _elements;
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (T t in _elements)
-                t.Update(gameTime);
+            foreach (MenuElement m in _elements)
+                m.Update(gameTime);
         }
 
         public override void ExecuteFunctionality()
@@ -72,8 +113,8 @@ namespace MonoGameJRPG.General.Menus.Layouts
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            foreach (T t in _elements)
-                t.Render(spriteBatch);
+            foreach (MenuElement m in _elements)
+                m.Render(spriteBatch);
         }
     }
 }

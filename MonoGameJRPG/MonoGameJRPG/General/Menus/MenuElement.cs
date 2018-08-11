@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonoGameJRPG.General.Menus
 {
@@ -13,6 +9,15 @@ namespace MonoGameJRPG.General.Menus
     /// </summary>
     public abstract class MenuElement
     {
+        #region Properties
+        public abstract int Width { get; }
+        public abstract int Height { get; }
+
+        public abstract int X { get; set; }
+        public abstract int Y { get; set; }
+        #endregion
+
+        #region AbstractMethods
         /// <summary>
         /// Updates the MenuElement.
         /// </summary>
@@ -34,5 +39,6 @@ namespace MonoGameJRPG.General.Menus
         /// </summary>
         /// <param name="spriteBatch"></param>
         public abstract void Render(SpriteBatch spriteBatch);
+        #endregion
     }
 }

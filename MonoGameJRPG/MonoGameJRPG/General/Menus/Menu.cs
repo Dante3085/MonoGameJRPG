@@ -9,6 +9,7 @@ namespace MonoGameJRPG.General.Menus
     /// <summary>
     /// Organizes MenuElements.
     /// </summary>
+    ///  TODO: Was ist der Sinn dieser Klasse ?
     public class Menu
     {
         private List<MenuElement> _menuElements;
