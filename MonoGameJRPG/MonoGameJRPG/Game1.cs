@@ -40,11 +40,8 @@ namespace MonoGameJRPG
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 3240;
-            _graphics.PreferredBackBufferHeight = 2160;
-
-            //_graphics.PreferredBackBufferWidth = 1920;
-            //_graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             _graphics.IsFullScreen = true;
 
