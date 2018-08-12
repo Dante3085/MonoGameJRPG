@@ -12,6 +12,7 @@ using MonoGameJRPG.TwoDGameEngine.Input;
 using MonoGameJRPG.TwoDGameEngine.Sprite;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework.Content;
 using MonoGameJRPG.TwoDGameEngine.Utils;
 using VosSoft.Xna.GameConsole;
@@ -38,9 +39,21 @@ namespace MonoGameJRPG
         /// </summary>
         private StateStack _stateStack;
 
-        private Rectangle[] lines;
+
+
+        #region Ressources
         public static Texture2D recTex;
-        private int c = 0;
+        public static Texture2D mainMenuBackground;
+        public static Texture2D firstMapBackground;
+        public static Texture2D playerSheet;
+        public static Texture2D btnNoHover;
+        public static Texture2D btnHover;
+        public static Texture2D inventoryBackground;
+
+        public static SpriteFont fontNoHover;
+        public static SpriteFont fontHover;
+
+        #endregion
 
         public Game1()
         {
@@ -70,14 +83,6 @@ namespace MonoGameJRPG
 
             _screenWidth = _graphics.PreferredBackBufferWidth;
             _screenHeight = _graphics.PreferredBackBufferHeight;
-
-            lines = new Rectangle[4]
-            {
-                new Rectangle(),
-                new Rectangle(),
-                new Rectangle(),
-                new Rectangle()
-            };
 
             base.Initialize();
         }
@@ -114,18 +119,18 @@ namespace MonoGameJRPG
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Texture2D mainMenuBackground = Content.Load<Texture2D>("Space");
-            Texture2D firstMapBackground = Content.Load<Texture2D>("samurai");
-            Texture2D playerSheet = Content.Load<Texture2D>("playerSheet");
-            Texture2D btnNoHover = Content.Load<Texture2D>("btnNoHover");
-            Texture2D btnHover = Content.Load<Texture2D>("btnHover");
-            Texture2D inventoryBackground = Content.Load<Texture2D>("blueBackground");
+            mainMenuBackground = Content.Load<Texture2D>("Space");
+            firstMapBackground = Content.Load<Texture2D>("samurai");
+            playerSheet = Content.Load<Texture2D>("playerSheet");
+            btnNoHover = Content.Load<Texture2D>("btnNoHover");
+            btnHover = Content.Load<Texture2D>("btnHover");
+            inventoryBackground = Content.Load<Texture2D>("blueBackground");
 
             recTex = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             recTex.SetData(new[] { Color.White });
 
-            SpriteFont fontNoHover = Content.Load<SpriteFont>("FontNoHover");
-            SpriteFont fontHover = Content.Load<SpriteFont>("FontHover");
+            fontNoHover = Content.Load<SpriteFont>("FontNoHover");
+            fontHover = Content.Load<SpriteFont>("FontHover");
 
             Menu mainMenu = new Menu(new List<MenuElement>()
             {
@@ -172,7 +177,7 @@ namespace MonoGameJRPG
                 { EState.MainMenuState, new MainMenuState(mainMenu, _spriteBatch, mainMenuBackground, _screenWidth, _screenHeight)},
                 { EState.FirstMapState, new FirstMapState(mapMenu, _spriteBatch, firstMapBackground, _screenWidth, _screenHeight, characters) },
                 { EState.InventoryState, new InventoryState(fontNoHover, fontHover, _spriteBatch, inventoryBackground, _screenWidth, _screenHeight, 
-                    StateStackPop, textures: new Texture2D[]{btnNoHover, btnHover}) }
+                    StateStackPop, textures: new Texture2D[]{btnNoHover, btnHover}, characters: characters) }
             });
 
             _stateStack.Push(EState.MainMenuState);

@@ -129,8 +129,8 @@ namespace MonoGameJRPG.TwoDGameEngine
                 new Rectangle(),
                 new Rectangle(),
                 new Rectangle(),
-                new Rectangle(), 
-            }, Game1.recTex,Color.Red);
+                new Rectangle(),
+            }, Game1.recTex, Color.Red);
         }
     }
 }

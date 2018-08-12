@@ -4,6 +4,7 @@ using MonoGameJRPG.General.Characters;
 using MonoGameJRPG.General.States;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using MonoGameJRPG.General.Menus.Layouts;
 using MonoGameJRPG.TwoDGameEngine;
 
@@ -14,10 +15,10 @@ namespace MonoGameJRPG.General.Menus
         #region MemberVariables
         // TODO: Äußere Abhängigkeiten sollen übergeben werden, der Zusammenbau des Menüs soll aber hier gemacht werden.
         private Menu _inventoryMenu;
-        // private VBox<CharacterInfo> _characterInfos;
+        private VBox _characterInfos;
         private VBox _options;
         private VBox _timeGil;
-        // private HBox _allBox;
+        private HBox _allBox;
         private Text _currentLocation;
         private Text _time;
         private MenuButton _exitButton;
@@ -28,6 +29,8 @@ namespace MonoGameJRPG.General.Menus
         private SpriteFont _fontHover;
 
         private Texture2D[] _textures;
+
+        private List<Character> _characters;
         #endregion
 
         #region Properties
@@ -43,6 +46,8 @@ namespace MonoGameJRPG.General.Menus
             _fontHover = fontHover;
 
             _textures = textures;
+
+            _characters = characters;
 
             SetUpMenu();
         }
@@ -73,6 +78,16 @@ namespace MonoGameJRPG.General.Menus
         {
             _exitButton = new MenuButton(_textures[0], _textures[1], 0, 0, function: _exitBtnAction);
 
+            _time = new Text(_fontNoHover, _fontHover, Game1._time.ToString());
+
+            _timeGil = new VBox(10, elements: new Text[]
+            {
+                _time,
+                new Text(_fontNoHover, _fontHover, "Gil: 0"),
+            });
+
+            _currentLocation = new Text(_fontNoHover, _fontHover, "Location: Map A");
+
             _options = new VBox(30, elements: new MenuElement[]
             {
                 new Text(_fontNoHover, _fontHover, "Item"),
@@ -84,21 +99,22 @@ namespace MonoGameJRPG.General.Menus
                 new Text(_fontNoHover, _fontHover, "Limit"),
                 new Text(_fontNoHover, _fontHover, "Config"),
                 new Text(_fontNoHover, _fontHover, "Save"),
+                _timeGil,
+                _currentLocation
             });
 
-            _time = new Text(_fontNoHover, _fontHover, Game1._time.ToString());
+            _characterInfos = new VBox(verticalOffset: 30);
+            foreach (Character c in _characters)
+                _characterInfos.Elements().Add(new CharacterInfo(c));
 
-            _timeGil = new VBox(10, elements: new Text[]
+            _allBox = new HBox(100, 100, 0, new MenuElement[]
             {
-                _time,
-                new Text(_fontNoHover, _fontHover, "Gil: 0"),
+                _characterInfos, _options
             });
-
-            _currentLocation = new Text(_fontNoHover, _fontHover, "Location: Map A");
 
             _inventoryMenu = new Menu(new List<MenuElement>()
             {
-                _exitButton, _options, _time, _currentLocation
+                _allBox
             });
         }
     }

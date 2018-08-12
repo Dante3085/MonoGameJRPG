@@ -42,6 +42,8 @@ namespace MonoGameJRPG.General.Characters
         private int _agility;
         private int _speed;
         private int _revengeValue;
+
+        private int _lvl;
         #endregion
 
         private bool _isAlive = true;
@@ -70,6 +72,7 @@ namespace MonoGameJRPG.General.Characters
             set { _animatedSprite = value; }
         }
 
+        public int Lvl => _lvl;
         public int Strength { get => _strength; set => _strength = value; }
         public int Defence { get => _defence; set => _defence = value; }
         public int Wit { get => _wit; set => _wit = value; }

@@ -45,6 +45,10 @@ namespace MonoGameJRPG.General.Menus.Layouts
                 _elements.AddRange(elements);
                 OrderVertically();
             }
+            else
+            {
+                _elements = new List<MenuElement>();
+            }
         }
 
         private int HeightTallestElement()
@@ -95,6 +99,7 @@ namespace MonoGameJRPG.General.Menus.Layouts
         {
             foreach (MenuElement m in _elements)
                 m.Update(gameTime);
+            OrderVertically();
         }
 
         public override void ExecuteFunctionality()
