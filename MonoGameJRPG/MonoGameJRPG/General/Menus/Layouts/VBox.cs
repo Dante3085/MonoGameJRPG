@@ -51,6 +51,11 @@ namespace MonoGameJRPG.General.Menus.Layouts
                 _elements = new List<MenuElement>();
         }
 
+        /// <summary>
+        /// Returns height as int of talles element.
+        /// Returns -1 if there are no elements.
+        /// </summary>
+        /// <returns></returns>
         private int HeightTallestElement()
         {
             if (_elements.Count == 0)
@@ -64,6 +69,11 @@ namespace MonoGameJRPG.General.Menus.Layouts
             return height;
         }
 
+        /// <summary>
+        /// Returns width as int of widest element.
+        /// Returns -1 if there are no elements.
+        /// </summary>
+        /// <returns></returns>
         private int WidthWidestElement()
         {
             if (_elements.Count == 0)

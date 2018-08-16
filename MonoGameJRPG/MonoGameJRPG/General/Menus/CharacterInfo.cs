@@ -30,6 +30,8 @@ namespace MonoGameJRPG.General.Menus
         private HBox _hBox;
         private VBox _firstRow;
         private VBox _secondRow;
+
+        private Action _functionality;
         #endregion
 
         #region Properties
@@ -46,10 +48,10 @@ namespace MonoGameJRPG.General.Menus
 
             _name = new Text(Game1.fontNoHover, Game1.fontHover, _character.Name);
             _lvl = new Text(Game1.fontNoHover, Game1.fontHover, "Lvl " + _character.Lvl);
-            _hp = new Text(Game1.fontNoHover, Game1.fontHover, "Lvl " + _character.Lvl);
-            _mp = new Text(Game1.fontNoHover, Game1.fontHover, "Lvl " + _character.Lvl);
-            _nextLvl = new Text(Game1.fontNoHover, Game1.fontHover, "Lvl " + _character.Lvl);
-            _limitLvl = new Text(Game1.fontNoHover, Game1.fontHover, "Lvl " + _character.Lvl);
+            _hp = new Text(Game1.fontNoHover, Game1.fontHover, "Hp " + _character.CurrentHp + "/" + _character.MaxHp);
+            _mp = new Text(Game1.fontNoHover, Game1.fontHover, "Mp " + _character.CurrentMp + "/" + _character.MaxMp);
+            _nextLvl = new Text(Game1.fontNoHover, Game1.fontHover, "NextLvl ");
+            _limitLvl = new Text(Game1.fontNoHover, Game1.fontHover, "LimitLvl ");
 
             _firstRow = new VBox(elements: new MenuElement[]
             {
@@ -65,7 +67,7 @@ namespace MonoGameJRPG.General.Menus
                 _limitLvl
             });
 
-            _hBox = new HBox(horizontalOffset: 10, elements: new MenuElement[]
+            _hBox = new HBox(horizontalOffset: 30, elements: new MenuElement[]
             {
                 /*_image,*/ _firstRow, _secondRow
             }, functionality: functionality);
