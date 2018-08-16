@@ -134,7 +134,7 @@ namespace MonoGameJRPG
 
             Menu mainMenu = new Menu(new List<MenuElement>()
             {
-                new VBox(0, 0, 10, new MenuButton[]
+                new VBox(0, 0, 10, elements: new MenuButton[]
                 {
                     new MenuButton(btnNoHover, btnHover, function: StateStackPush_FirstMapState),
                     new MenuButton(btnNoHover, btnHover, function: QuitGame)
@@ -142,7 +142,7 @@ namespace MonoGameJRPG
             });
             Menu mapMenu = new Menu(new List<MenuElement>()
             {
-                new VBox(0, 0, 0, new MenuButton[]
+                new VBox(0, 0, 0, elements: new MenuButton[]
                 {
                     new MenuButton(btnNoHover, btnHover, function: StateStackPush_InventoryState), 
                     new MenuButton(btnNoHover, btnHover, function: StateStackPop),

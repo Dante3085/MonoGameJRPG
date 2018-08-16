@@ -103,11 +103,7 @@ namespace MonoGameJRPG.General.Menus
                 _currentLocation
             });
 
-            _characterInfos = new VBox(verticalOffset: 30);
-            foreach (Character c in _characters)
-                _characterInfos.Elements().Add(new CharacterInfo(c));
-
-            _allBox = new HBox(100, 100, 0, new MenuElement[]
+            _allBox = new HBox(100, 100, 1000, elements: new MenuElement[]
             {
                 _characterInfos, _options
             });

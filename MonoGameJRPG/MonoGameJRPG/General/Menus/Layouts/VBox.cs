@@ -12,6 +12,7 @@ namespace MonoGameJRPG.General.Menus.Layouts
         private int _y;
         private int _verticalOffset;
         private List<MenuElement> _elements = new List<MenuElement>();
+        private Action _functionality;
         #endregion
 
         #region Properties
@@ -34,25 +35,27 @@ namespace MonoGameJRPG.General.Menus.Layouts
         }
         #endregion
 
-        public VBox(int x = 0, int y = 0, int verticalOffset = 0, params MenuElement[] elements)
+        public VBox(int x = 0, int y = 0, int verticalOffset = 0, Action functionality = null, params MenuElement[] elements)
         {
             _x = x;
             _y = y;
             _verticalOffset = verticalOffset;
+            _functionality = functionality;
 
             if (elements != null)
             {
                 _elements.AddRange(elements);
-                OrderVertically();
+                OrderElements();
             }
             else
-            {
                 _elements = new List<MenuElement>();
-            }
         }
 
         private int HeightTallestElement()
         {
+            if (_elements.Count == 0)
+                return -1;
+
             int height = _elements[0].Height;
 
             foreach(MenuElement m in _elements)
@@ -63,6 +66,9 @@ namespace MonoGameJRPG.General.Menus.Layouts
 
         private int WidthWidestElement()
         {
+            if (_elements.Count == 0)
+                return -1;
+
             int width = _elements[0].Width;
 
             foreach (MenuElement m in _elements)
@@ -75,11 +81,17 @@ namespace MonoGameJRPG.General.Menus.Layouts
         /// Orders elements vertically.
         /// Position of element is dependant on position of element in element list.
         /// </summary>
-        private void OrderVertically()
+        public override void OrderElements()
         {
+            if (_elements.Count == 0)
+                return;
+
             // Position first element at upper left corner of VBox.
             _elements[0].X = this._x;
             _elements[0].Y = this._y;
+
+            if (_elements.Count == 1)
+                return;
 
             // Position every element (except first) at VBox.X and VBox.Y + previousElement.Y + verticalOffset.
             // Makes it so that elements aren't stacked on top of each other and variables spacing is possible.
@@ -99,17 +111,17 @@ namespace MonoGameJRPG.General.Menus.Layouts
         {
             foreach (MenuElement m in _elements)
                 m.Update(gameTime);
-            OrderVertically();
+            OrderElements();
         }
 
         public override void ExecuteFunctionality()
         {
-            throw new NotImplementedException();
+            _functionality();
         }
 
         public override void ChangeFunctionality(Action functionality)
         {
-            throw new NotImplementedException();
+            _functionality = functionality;
         }
 
         public override void Render(SpriteBatch spriteBatch)

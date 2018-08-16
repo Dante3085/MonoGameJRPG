@@ -13,6 +13,7 @@ namespace MonoGameJRPG.General.Menus
 {
     /// <summary>
     /// Displays a Character's Info visually.
+    /// Essentially a small hierarchy of layouts with Texts.
     /// </summary>
     public class CharacterInfo : MenuElement
     {
@@ -39,7 +40,7 @@ namespace MonoGameJRPG.General.Menus
 
         #endregion
 
-        public CharacterInfo(Character character)
+        public CharacterInfo(Character character, Action functionality = null)
         {
             _character = character;
 
@@ -67,22 +68,22 @@ namespace MonoGameJRPG.General.Menus
             _hBox = new HBox(horizontalOffset: 10, elements: new MenuElement[]
             {
                 /*_image,*/ _firstRow, _secondRow
-            });
+            }, functionality: functionality);
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            _hBox.Update(gameTime);
         }
 
         public override void ExecuteFunctionality()
         {
-            throw new NotImplementedException();
+            _hBox.ExecuteFunctionality();
         }
 
         public override void ChangeFunctionality(Action functionality)
         {
-            throw new NotImplementedException();
+            _hBox.ChangeFunctionality(functionality);
         }
 
         public override void Render(SpriteBatch spriteBatch)

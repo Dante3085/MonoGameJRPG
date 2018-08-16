@@ -10,7 +10,7 @@ namespace MonoGameJRPG.General.Menus.Layouts
     public abstract class Layout : MenuElement
     {
         public abstract int Offset { get; set; }
-
         public abstract List<MenuElement> Elements();
+        public abstract void OrderElements();
     }
 }
